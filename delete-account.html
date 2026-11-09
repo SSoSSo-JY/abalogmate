@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ABA로그메이트 계정 삭제</title>
+<meta name="description" content="ABA로그메이트 메이트 계정과 서버에 저장된 데이터를 삭제하는 방법">
+<!--
+  계정 삭제 안내 페이지 (11-09) — 구글 플레이 「앱 밖에서 계정 삭제를 요청할 수 있는 웹 경로」 요구
+  운영자 캣츠ABA몰 · 문의 메일 cats1772@naver.com (11-09 운영자). 남은 칸: [검토] (법정 보관 — 처리방침 검토 때)
+  ⚠ 처리방침 초안(docs/개인정보_동의문안_처리방침_초안_20261022.md 4-3)과 같이 고칠 것 — 법률 검토 전 초안
+  메일 요청 처리: supabase/ops/mate_delete_account_by_email.sql
+-->
+<style>
+  :root {
+    --bg: #F0F4F8; --card: #ffffff; --text: #263238; --muted: #607D8B; --accent: #4A90D9;
+    --warn-bg: #FFF4D6; --warn-text: #8A6100; --line: #E3E8EE;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12171c; --card: #1c232b; --text: #e6edf3; --muted: #9aa8b5; --accent: #7fb3ec;
+      --warn-bg: #3a3020; --warn-text: #f0d48a; --line: #2c3540;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+    line-height: 1.7; word-break: keep-all;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 32px 16px 56px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin-bottom: 16px; }
+  h2 { font-size: 1.15rem; margin: 0 0 10px; }
+  ol, ul { padding-left: 1.3em; margin: 8px 0; }
+  li { margin: 4px 0; }
+  .path { font-weight: 600; color: var(--accent); }
+  .note { background: var(--warn-bg); color: var(--warn-text); border-radius: 10px; padding: 12px 14px; margin-top: 12px; }
+  .mail { font-weight: 600; }
+  footer { color: var(--muted); font-size: 0.9rem; text-align: center; margin-top: 28px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>ABA로그메이트 계정 삭제</h1>
+  <p class="sub">메이트 계정과 메이트 서버에 저장된 데이터를 지우는 방법입니다. 운영: 캣츠ABA몰</p>
+
+  <section>
+    <h2>1. 앱에서 바로 삭제하기 (가장 빠름)</h2>
+    <ol>
+      <li>ABA로그메이트 앱을 엽니다.</li>
+      <li><span class="path">선생님 메뉴</span>(PIN 입력) → 위쪽 <span class="path">메이트 계정</span>으로 갑니다.</li>
+      <li>로그인한 상태에서 <span class="path">계정 삭제</span>를 누르고, 안내를 확인한 뒤 두 번 더 눌러 삭제합니다.</li>
+    </ol>
+    <p>삭제하면 곧바로 서버의 데이터가 모두 지워지고, 이 계정으로는 더 이상 로그인할 수 없습니다.</p>
+  </section>
+
+  <section>
+    <h2>2. 앱을 쓸 수 없을 때 — 메일로 요청하기</h2>
+    <p>앱을 지웠거나 기기가 없을 때는 메일로 삭제를 요청할 수 있습니다.</p>
+    <ul>
+      <li>받는 곳: <a class="mail" href="mailto:cats1772@naver.com?subject=ABA%EB%A1%9C%EA%B7%B8%EB%A9%94%EC%9D%B4%ED%8A%B8%20%EA%B3%84%EC%A0%95%20%EC%82%AD%EC%A0%9C%20%EC%9A%94%EC%B2%AD">cats1772@naver.com</a></li>
+      <li>제목: <strong>ABA로그메이트 계정 삭제 요청</strong></li>
+      <li>내용: 메이트 계정에 가입한 이메일 주소</li>
+    </ul>
+    <p>본인 확인을 위해 <strong>가입한 이메일 주소에서</strong> 보내 주세요. 다른 주소에서 보내시면 가입한 주소로 확인 메일을 보내 드립니다.</p>
+    <p>요청을 확인한 뒤 <strong>7일 안에</strong> 삭제하고, 삭제했다고 메일로 알려 드립니다.</p>
+  </section>
+
+  <section>
+    <h2>3. 지워지는 정보</h2>
+    <ul>
+      <li>메이트 계정 (로그인 이메일 · 비밀번호 정보)</li>
+      <li>메이트 서버에 저장된 학생 이름, 학습퀴즈 기록, 커리큘럼</li>
+      <li>커스텀 단어 (글자 · 사진), 단어 · 퀴즈 세트, 얼굴 사진 이름표, 행동 카드 얼굴 위치</li>
+      <li>체험 · 구독 상태 기록</li>
+    </ul>
+    <p>얼굴 사진은 처음부터 서버에 올리지 않으므로 서버에 남아 있지 않습니다.</p>
+  </section>
+
+  <section>
+    <h2>4. 지워지지 않거나 따로 관리되는 정보</h2>
+    <ul>
+      <li><strong>기기 안의 데이터</strong> — 앱이 깔린 기기에 있는 학생 · 기록 · 사진은 그 기기에 남습니다. 앱의 선생님 메뉴에서 학생을 지우거나, 앱을 지우면 함께 지워집니다.</li>
+      <li><strong>ABA로그로 보낸 학습 결과</strong> — 치료실의 ABA로그와 연동해 이미 보낸 결과는 ABA로그가 관리합니다. ABA로그(치료실)에 문의해 주세요.</li>
+      <li><strong>구독 결제 기록</strong> — 구글 플레이 결제 기록은 구글이 관리합니다. 계정을 지워도 구독은 자동으로 취소되지 않으니, 구글 플레이 앱 → 결제 및 정기 결제에서 먼저 취소해 주세요.</li>
+      <li>법에 따라 보관해야 하는 정보가 있으면 그 법이 정한 기간 동안만 보관한 뒤 지웁니다. [검토]</li>
+    </ul>
+    <div class="note">계정을 지워도, 같은 기기에서는 계정 없이 앱을 계속 쓸 수 있습니다. 계정 삭제는 되돌릴 수 없습니다.</div>
+  </section>
+
+  <footer>ABA로그메이트 · 문의 cats1772@naver.com</footer>
+</main>
+</body>
+</html>
